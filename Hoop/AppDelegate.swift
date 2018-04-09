@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,8 +17,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        FIRApp.configure()
+
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.makeKeyAndVisible()
+        //configure collection view
+        if (FIRAuth.auth()?.currentUser?.uid) != nil{
+            window?.rootViewController = UINavigationController(rootViewController: HomeViewController())
+        }
+        else{
+            window?.rootViewController =  UINavigationController(rootViewController: LoginViewController())
+        }
+        UINavigationBar.appearance().barTintColor = MyVariables.mainColor
+        
+        //status bar methods
+        let statusBarBackgroundView = UIView()
+        //statusBarBackgroundView.backgroundColor = UIColor.blackColor()
+        statusBarBackgroundView.backgroundColor = MyVariables.tierciaryColor
+        window?.addSubview(statusBarBackgroundView)
+        window?.addConstraintsWithFormat("H:|[v0]|", views: statusBarBackgroundView)
+        window?.addConstraintsWithFormat("V:|[v0(20)]", views: statusBarBackgroundView)
+        application.statusBarStyle = .lightContent
+
         // Override point for customization after application launch.
         return true
+    }
+    
+    class func getAppDelegate() -> AppDelegate {
+        return UIApplication.shared.delegate as! AppDelegate
+    }
+    
+    func showMessage(_ message: String) {
+        let alertController = UIAlertController(title: "Sherpa", message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        let dismissAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) { (action) -> Void in
+        }
+        
+        alertController.addAction(dismissAction)
+        
+        let pushedViewControllers = (self.window?.rootViewController as! UINavigationController).viewControllers
+        let presentedViewController = pushedViewControllers[pushedViewControllers.count - 1]
+        
+        presentedViewController.present(alertController, animated: true, completion: nil)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
