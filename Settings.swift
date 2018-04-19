@@ -24,7 +24,7 @@ class SettingsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
     let cellHeight: CGFloat = 50
     
     let settings: [Setting] = {
-        return [Setting(name: "My Account", imageName: "settings"), Setting(name: "Terms & privacy policy", imageName: "privacy"), Setting(name: "Send Feedback", imageName: "feedback"), Setting(name: "Help", imageName: "help"), Setting(name: "Log Out", imageName: "switch_account"), Setting(name: "Cancel", imageName: "cancel")]
+        return [Setting(name: "Log Out", imageName: "switch_account"), Setting(name: "Cancel", imageName: "cancel")]
     }()
     
     
@@ -79,7 +79,7 @@ class SettingsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
     }
     
     var homeViewController: HomeViewController?
-    
+    var GuestHomeViewController: GuestHomeViewController?
     
     func handleDismiss(_ setting: Setting) {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
@@ -94,6 +94,7 @@ class SettingsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
             self.collectionView.removeFromSuperview()
             if setting.name != "" && setting.name != "Cancel" {
                 self.homeViewController?.showControllerForSetting(setting)
+                self.GuestHomeViewController?.showControllerForSetting(setting)
             }
         }
     }

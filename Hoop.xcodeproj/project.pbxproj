@@ -34,6 +34,7 @@
 		98533A67206DB227001A1926 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98533A66206DB227001A1926 /* CommentCell.swift */; };
 		98533A69206DB233001A1926 /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98533A68206DB233001A1926 /* CommentViewController.swift */; };
 		98533A6B206DB27F001A1926 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98533A6A206DB27F001A1926 /* Playlist.swift */; };
+		98BA07CF207D49E300770C1F /* GuestHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BA07CE207D49E300770C1F /* GuestHomeViewController.swift */; };
 		DED882AC4CFA3FE1D0476032 /* Pods_HoopTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B72448E1B3777EF4CEA132F8 /* Pods_HoopTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -90,6 +91,7 @@
 		98533A66206DB227001A1926 /* CommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		98533A68206DB233001A1926 /* CommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
 		98533A6A206DB27F001A1926 /* Playlist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
+		98BA07CE207D49E300770C1F /* GuestHomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuestHomeViewController.swift; sourceTree = "<group>"; };
 		B72448E1B3777EF4CEA132F8 /* Pods_HoopTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HoopTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD5268F962BEA7D6ECE38EB4 /* Pods-HoopUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HoopUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HoopUITests/Pods-HoopUITests.release.xcconfig"; sourceTree = "<group>"; };
 		E846411988DA27B7996B060C /* Pods_Hoop.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hoop.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -215,6 +217,7 @@
 				98533A60206DB15D001A1926 /* IndividualLocationView.swift */,
 				98533A62206DB165001A1926 /* SaveLocationView.swift */,
 				98533A68206DB233001A1926 /* CommentViewController.swift */,
+				98BA07CE207D49E300770C1F /* GuestHomeViewController.swift */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -529,6 +532,7 @@
 				98533A49206DAA0C001A1926 /* Cells.swift in Sources */,
 				98533A4D206DAA64001A1926 /* Location.swift in Sources */,
 				9819A6DA205EF6E70092AE12 /* AppDelegate.swift in Sources */,
+				98BA07CF207D49E300770C1F /* GuestHomeViewController.swift in Sources */,
 				9819A70D205EF8600092AE12 /* Helpers.swift in Sources */,
 				98533A4B206DAA3C001A1926 /* User.swift in Sources */,
 				98533A58206DAF55001A1926 /* UserProfile.swift in Sources */,

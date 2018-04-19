@@ -43,6 +43,20 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         return button
     }()
     
+    lazy var skipLoginRegisterButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = MyVariables.mainColor
+        button.setTitle("Skip Login", for: UIControlState())
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(UIColor.white, for: UIControlState())
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.layer.cornerRadius = 5
+        button.layer.masksToBounds = true
+        button.addTarget(self, action: #selector(skipLogin), for: .touchUpInside)
+        return button
+    }()
+    
+    
     lazy var resetPasswordButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = MyVariables.backgroundColor
@@ -85,6 +99,62 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         } else {
             handleRegister()
         }
+    }
+    
+    func skipLogin(){
+        //add skip login sheit
+        FIRAuth.auth()?.signIn(withEmail: "guest@gmail.com", password: "guest1", completion: { (user, error) in
+            if error != nil {
+                print(error.debugDescription)
+                if let code = error?.code {
+                    print("here is the error code")
+                    print(code)
+                    if code == 17009 {
+                        //incorrect password
+                        print("password should be more than six characters")
+                        self.view.addSubview(self.badPassword)
+                        self.view.addSubview(self.resetPasswordButton)
+                        self.setupBadPasswordWithReset()
+                        self.badPassword.text = "Incorrect password"
+                        self.removeBadEmail()
+                        self.avaliableEmailImage.alpha = 0
+                        
+                    }
+                    if code == 17011{
+                        //incorrect email
+                        print("email already in use")
+                        self.view.addSubview(self.badEmail)
+                        self.setupBadEmail()
+                        self.badEmail.text = "No account exhists for this email"
+                        let origImage = UIImage(named: "x");
+                        let tintedImage = origImage?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+                        self.avaliableEmailImage.image = tintedImage
+                        self.avaliableEmailImage.tintColor = UIColor.red
+                        self.avaliableEmailImage.alpha = 0.5
+                        self.removeBadPassword()
+                    }
+                    if code == 17008{
+                        print("email already in use")
+                        self.view.addSubview(self.badEmail)
+                        self.setupBadEmail()
+                        self.badEmail.text = "Please enter correctly formatted email"
+                        let origImage = UIImage(named: "x");
+                        let tintedImage = origImage?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+                        self.avaliableEmailImage.image = tintedImage
+                        self.avaliableEmailImage.tintColor = UIColor.red
+                        self.avaliableEmailImage.alpha = 0.5
+                        self.removeBadPassword()
+                    }
+                    else{
+                        //something is wrong
+                    }
+                }
+                return
+            }
+            let homeView = GuestHomeViewController()
+            self.navigationController?.viewControllers = [homeView]
+            self.navigationController?.pushViewController(homeView, animated: true)
+        })
     }
     
     func handleLogin() {
@@ -381,12 +451,23 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         view.addSubview(loginRegisterButton)
         view.addSubview(profileImageView)
         view.addSubview(loginRegisterSegmentedControl)
+        view.addSubview(skipLoginRegisterButton)
         setupEmailView()
         setupInputsContainerView()
         setupLoginRegisterButton()
         setupLoginRegisterSegmentedControl()
         setupProfileImageView()
+        setupSkipLoginView()
         
+    }
+    
+    func setupSkipLoginView(){
+        skipLoginRegisterButton.topAnchor.constraint(equalTo: loginRegisterButton.bottomAnchor, constant: 10).isActive = true
+        skipLoginRegisterButton.leftAnchor.constraint(equalTo: loginRegisterButton.leftAnchor, constant: 0).isActive = true
+        skipLoginRegisterButton.rightAnchor.constraint(equalTo: loginRegisterButton.rightAnchor, constant: 0).isActive = true
+        skipLoginRegisterButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+
+
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -23,7 +23,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         //configure collection view
         if (FIRAuth.auth()?.currentUser?.uid) != nil{
-            window?.rootViewController = UINavigationController(rootViewController: HomeViewController())
+            if(FIRAuth.auth()?.currentUser?.uid == "k6Yx5CuDxtQgAy0pZfwOuiWqX202"){
+                window?.rootViewController = UINavigationController(rootViewController: GuestHomeViewController())
+            }
+            else{
+                window?.rootViewController = UINavigationController(rootViewController: HomeViewController())
+            }
         }
         else{
             window?.rootViewController =  UINavigationController(rootViewController: LoginViewController())

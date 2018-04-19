@@ -21,7 +21,7 @@ class SaveLocationViewController: UIViewController, UICollectionViewDelegateFlow
     //create collection view variable
     var collectionView: UICollectionView!
     //create the second collection view
-    var playlistCollectionView: UICollectionView!
+   // var playlistCollectionView: UICollectionView!
     //make the cell id
     let cellId = "cellId"
     //vars to hold the cell height and width
@@ -33,31 +33,12 @@ class SaveLocationViewController: UIViewController, UICollectionViewDelegateFlow
     var pickedImage:UIImage!
     var pickedImages: [UIImage] = []
     var pickedCell: UICollectionViewCell?
-    //playlist array
-    let publicPlaylistArr: [String] = {
-        var a = ["Add To Playlist:","Biking", "Cliff Jumping", "Climbing", "Dispersed Camping", "Gear Store", "Hiking", "Ice Climbing", "Resteraunts", "Site Camping", "Skiing", "Sunrise View", "Sunset View", "Trail Running"]
-        return a
-    }()
-    var publicBoolArr:[Bool] = []
-    var playlistArr = [String]()
-    var boolArr = [Bool]()
     //make layout
     let layout2: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
     //setup the scroll view so the view can show more than what fits
     let scrollView = UIScrollView()
     //setup the content view for the scroll view
     let containerView = UIView()
-    
-    let playlistLabel:UILabel = {
-        let l = UILabel()
-        l.translatesAutoresizingMaskIntoConstraints = false
-        l.font = UIFont.boldSystemFont(ofSize: 16)
-        l.textAlignment = .left
-        l.text = "Add To Playlists:"
-        l.textColor = MyVariables.buttonColors
-        l.backgroundColor = UIColor.clear
-        return l
-    }()
     
     let titleLabel:UILabel = {
         let l = UILabel()
@@ -92,31 +73,9 @@ class SaveLocationViewController: UIViewController, UICollectionViewDelegateFlow
         return l
     }()
     
-    
-    var buttonHolderView: UIView = {
-        let v = UIView()
-        v.backgroundColor = UIColor.white
-        v.translatesAutoresizingMaskIntoConstraints = false
-        v.layer.cornerRadius = 5
-        v.layer.borderWidth = 3
-        v.layer.borderColor = MyVariables.secondaryColor.cgColor
-        v.layer.masksToBounds = true
-        return v
-        
-    }()
-    
-    var buttonHolderViewLine: UIView = {
-        let v = UIView()
-        v.backgroundColor = MyVariables.mainColor
-        v.translatesAutoresizingMaskIntoConstraints = false
-        v.layer.masksToBounds = true
-        return v
-        
-    }()
-    
     var pickedImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "puppies")
+        imageView.image = UIImage(named: "bball")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         return imageView
@@ -135,46 +94,7 @@ class SaveLocationViewController: UIViewController, UICollectionViewDelegateFlow
         return button
     }()
     
-    lazy var privateButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = MyVariables.mainColor
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Private", for: .normal)
-        button.setTitleColor(UIColor.white, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        button.layer.cornerRadius = 5
-        button.layer.masksToBounds = true
-        button.addTarget(self, action: #selector(privateButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    lazy var followersButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = MyVariables.buttonColors
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Followers", for: .normal)
-        button.setTitleColor(UIColor.white, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        button.layer.cornerRadius = 5
-        button.layer.masksToBounds = true
-        button.addTarget(self, action: #selector(followersButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    lazy var publicButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = MyVariables.buttonColors
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Public", for: .normal)
-        button.setTitleColor(UIColor.white, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        button.layer.cornerRadius = 5
-        button.layer.masksToBounds = true
-        button.addTarget(self, action: #selector(publicButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    //text field for the title
+        //text field for the title
     var titleTextField :UITextField = {
         let tf = UITextField()
         tf.backgroundColor = UIColor.white
@@ -197,7 +117,7 @@ class SaveLocationViewController: UIViewController, UICollectionViewDelegateFlow
         return v
         
     }()
-    
+
     
     var descriptionTextField :UITextView = {
         let tf = UITextView()
@@ -270,31 +190,13 @@ class SaveLocationViewController: UIViewController, UICollectionViewDelegateFlow
         self.containerView.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor).isActive = true
         self.containerView.heightAnchor.constraint(equalToConstant: self.view.frame.height * 2).isActive = true
         ///scroll view stuff above
-        
-        
-        //setup bool array
-        publicBoolArr = [Bool](repeating: false, count: publicPlaylistArr.count)
-        boolArr = [Bool](repeating: false, count: playlistArr.count)
-        playlistArr[0] = "Add To Playlist:"
         //setup other shit
         view.backgroundColor = MyVariables.backgroundColor
         // Do any additional setup after loading the view.
         //make the title for the nav bar
         self.title = "Save Location"
         //add the playlist label
-        containerView.addSubview(playlistLabel)
-        setupPlaylistLabel()
         //add the subviews
-        containerView.addSubview(buttonHolderView)
-        setupButtonHolderView()
-        buttonHolderView.addSubview(privateButton)
-        setupPrivateButton()
-        buttonHolderView.addSubview(followersButton)
-        setupFollowersButton()
-        buttonHolderView.addSubview(publicButton)
-        setupPublicButton()
-        buttonHolderView.addSubview(buttonHolderViewLine)
-        setupButtonHolderViewLine()
         //make a second collection view
         layout2.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 5)
         cellWidth2 = Int(self.view.frame.width)/2 - 30
@@ -303,19 +205,6 @@ class SaveLocationViewController: UIViewController, UICollectionViewDelegateFlow
         print(cellWidth2)
         layout2.itemSize = CGSize(width: cellWidth2, height: cellHeight2)
         layout2.scrollDirection = .horizontal
-        playlistCollectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: layout2)
-        playlistCollectionView.dataSource = self
-        playlistCollectionView.delegate = self
-        playlistCollectionView.layer.cornerRadius = 5
-        playlistCollectionView.layer.masksToBounds = true
-        playlistCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        playlistCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "PlaylistCell")
-        playlistCollectionView.backgroundColor = UIColor.white
-        self.buttonHolderView.addSubview(playlistCollectionView)
-        playlistCollectionView.bottomAnchor.constraint(equalTo: buttonHolderView.bottomAnchor, constant: -5).isActive = true
-        playlistCollectionView?.leftAnchor.constraint(equalTo: buttonHolderView.leftAnchor, constant: 10).isActive = true
-        playlistCollectionView?.rightAnchor.constraint(equalTo: buttonHolderView.rightAnchor, constant: -10).isActive = true
-        playlistCollectionView?.heightAnchor.constraint(equalToConstant: 60).isActive = true
         //now do the title label
         containerView.addSubview(titleLabel)
         setupTitleLabel()
@@ -369,63 +258,11 @@ class SaveLocationViewController: UIViewController, UICollectionViewDelegateFlow
         
     }
     
-    func setupPlaylistLabel(){
-        playlistLabel.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
-        playlistLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 10).isActive = true
-        playlistLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
-        playlistLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-    }
-    
-    func privateButtonTapped(){
-        print("private button tapped ...")
-        resetButtonColor()
-        privateButton.backgroundColor = MyVariables.mainColor
-        DispatchQueue.main.async {
-            self.playlistCollectionView.collectionViewLayout.prepare()
-            self.playlistCollectionView.reloadData()
-        }
-    }
-    
-    func followersButtonTapped(){
-        print("followers button tapped ...")
-        resetButtonColor()
-        followersButton.backgroundColor = MyVariables.mainColor
-        DispatchQueue.main.async {
-            self.playlistCollectionView.reloadData()
-            self.playlistCollectionView.collectionViewLayout.invalidateLayout()
-            self.playlistCollectionView.collectionViewLayout.prepare()
-        }
-        
-    }
-    
-    func setupButtonHolderViewLine(){
-        buttonHolderViewLine.topAnchor.constraint(equalTo: followersButton.bottomAnchor, constant: 5).isActive = true
-        buttonHolderViewLine.leftAnchor.constraint(equalTo: buttonHolderView.leftAnchor, constant: 50).isActive = true
-        buttonHolderViewLine.rightAnchor.constraint(equalTo: buttonHolderView.rightAnchor, constant: -50 ).isActive = true
-        buttonHolderViewLine.heightAnchor.constraint(equalToConstant: 2).isActive = true
-    }
-    
-    func publicButtonTapped(){
-        print("public button tapped ...")
-        resetButtonColor()
-        publicButton.backgroundColor = MyVariables.mainColor
-        DispatchQueue.main.async {
-            self.playlistCollectionView.collectionViewLayout.prepare()
-            self.playlistCollectionView.reloadData()
-        }
-    }
-    
     func saveButtonTapped(){
         print("Save button tapped ...")
         saveLocationToCoreData()
     }
     
-    func resetButtonColor(){
-        privateButton.backgroundColor = MyVariables.secondaryColor
-        followersButton.backgroundColor = MyVariables.secondaryColor
-        publicButton.backgroundColor = MyVariables.secondaryColor
-        
-    }
     
     func cancelButtonTapped(){
         print("Cancel button tapped ...")
@@ -438,7 +275,7 @@ class SaveLocationViewController: UIViewController, UICollectionViewDelegateFlow
         //setup the image picker
         let picker = UIImagePickerController()
         picker.delegate = self
-        picker.sourceType = .camera
+        picker.sourceType = .photoLibrary
         present(picker, animated: true, completion: nil)
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -467,14 +304,11 @@ class SaveLocationViewController: UIViewController, UICollectionViewDelegateFlow
                 image.contentMode = .scaleAspectFit
                 return image
             }()
-            
-            if let cell = pickedCell{
-                cell.backgroundView = imageView
-            }
-            else{
-                //figure out how to do this well
-            }
         }
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+
         
         dismiss(animated: true, completion: nil)
 
@@ -518,41 +352,8 @@ class SaveLocationViewController: UIViewController, UICollectionViewDelegateFlow
         
     }
     
-    
-    
-    func setupPrivateButton(){
-        print("setup private button ...")
-        privateButton.leftAnchor.constraint(equalTo: buttonHolderView.leftAnchor, constant: 10).isActive = true
-        privateButton.widthAnchor.constraint(equalToConstant: view.frame.width/3-20).isActive = true
-        privateButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        privateButton.topAnchor.constraint(equalTo: buttonHolderView.topAnchor, constant: 10).isActive = true
-    }
-    
-    func setupFollowersButton(){
-        print("setup followers button ...")
-        followersButton.centerXAnchor.constraint(equalTo: buttonHolderView.centerXAnchor).isActive = true
-        followersButton.topAnchor.constraint(equalTo: buttonHolderView.topAnchor, constant: 10).isActive = true
-        followersButton.widthAnchor.constraint(equalToConstant: view.frame.width/3-20).isActive = true
-        followersButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-    }
-    
-    func setupPublicButton(){
-        print("setup public button ...")
-        publicButton.rightAnchor.constraint(equalTo: buttonHolderView.rightAnchor, constant: -10).isActive = true
-        publicButton.widthAnchor.constraint(equalToConstant: view.frame.width/3-20).isActive = true
-        publicButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        publicButton.topAnchor.constraint(equalTo: buttonHolderView.topAnchor, constant: 10).isActive = true
-    }
-    
-    func setupButtonHolderView(){
-        print("Setting up button holder view ...")
-        buttonHolderView.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 10).isActive = true
-        buttonHolderView.topAnchor.constraint(equalTo: playlistLabel.bottomAnchor, constant: 2).isActive = true
-        buttonHolderView.heightAnchor.constraint(equalToConstant: 125).isActive = true
-        buttonHolderView.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -10).isActive = true
-    }
     func setupTitleLabel(){
-        titleLabel.topAnchor.constraint(equalTo: buttonHolderView.bottomAnchor).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
         titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 10).isActive = true
         titleLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
         titleLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -633,69 +434,24 @@ class SaveLocationViewController: UIViewController, UICollectionViewDelegateFlow
     }
     
     func saveLocationToCoreData(){
-        //1
-        /*
-        let appDelegate =
-            UIApplication.shared.delegate as! AppDelegate
-        
-        let managedContext = appDelegate.managedObjectContext
-        
-        //2
-        let entity =  NSEntityDescription.entityForName("ListEntity",
-                                                        inManagedObjectContext:managedContext)
-        
-        let location = NSManagedObject(entity: entity!,
-                                       insertIntoManagedObjectContext: managedContext)
- 
-        
-        print("got the latitude from homeviewcontroller ...")
-        print(latitude)
-        print("got the longitude from homeviewcontroller ...")
-        print(longitude)
-        var locationString = ""
-        var locationImageString = ""
-        titleText = titleTextField.text
-        let titleTextToSave = "|" + titleText + "|"
-        descriptionText = descriptionTextField.text
-        let descriptionTextToSave = "|" + descriptionText + "|"
-        let strlatitude = "|"+String(latitude)+"|"
-        let strlongitude = "|"+String(longitude)+"|"
-        print (strlatitude)
-        print (strlongitude)
-        print(titleText)
-        print(descriptionText)
-        //3
-        location.setValue(strlatitude, forKey: "latitude")
-        location.setValue(strlongitude, forKey: "longitude")
-        location.setValue(titleTextToSave, forKey: "title")
-        location.setValue(descriptionTextToSave, forKey: "desc")
-        */
         //TODO: fix the way i do all of this bullshit
         //save information to firebase as well
-        if let uid = FIRAuth.auth()?.currentUser?.uid {
+        if (FIRAuth.auth()?.currentUser?.uid) != nil {
             print("made it in here baby")
             //have uid so I can add info to their thingy
             //else we did it successfully
             let ref = FIRDatabase.database().reference()
-            let usersLocations = ref.child("users").child(uid).child("locations")
             let locationID = ref.child("AllUserLocations").childByAutoId()
             //locationString = "|"+String(describing: locationID)+"|"
             print("Users Location ... \(locationID)")
             var values: [String: Any]!
             let id = locationID.key
+            let uid = FIRAuth.auth()?.currentUser?.uid
             let timeNum = Date(timeIntervalSinceReferenceDate: Date.timeIntervalSinceReferenceDate)
             let time = Double(timeNum.timeIntervalSinceReferenceDate)
             descriptionText = descriptionTextField.text
             titleText = titleTextField.text
-            if privateButton.backgroundColor == MyVariables.mainColor{
-                values = ["latitude": Double(self.latitude), "longitude": Double(self.longitude), "title": NSString(string: self.titleText), "desc": NSString(string: self.descriptionText), "owner": uid, "privateBool": true, "id":id, "time": time]
-            }
-            else if publicButton.backgroundColor == MyVariables.mainColor{
-                values = ["latitude": Double(self.latitude), "longitude": Double(self.longitude), "title": NSString(string: self.titleText), "desc": NSString(string: self.descriptionText), "owner": uid, "publicBool": true, "id":id, "time": time]
-            }
-            else if followersButton.backgroundColor == MyVariables.mainColor{
-                values = ["latitude": Double(self.latitude), "longitude": Double(self.longitude), "title": NSString(string: self.titleText), "desc": NSString(string: self.descriptionText), "owner": uid, "followersBool": true, "id":id, "time": time]
-            }
+            values = ["latitude": Double(self.latitude), "longitude": Double(self.longitude), "title": NSString(string: self.titleText), "desc": NSString(string: self.descriptionText), "owner": uid, "id":id, "time": time]
             locationID.updateChildValues(values, withCompletionBlock: { (err, ref) in
                 //there was an error
                 if err != nil{
@@ -705,87 +461,6 @@ class SaveLocationViewController: UIViewController, UICollectionViewDelegateFlow
                 //success
                 print("saved user successfully go team")
             })
-            let userValues = [id: String(describing: locationID)]
-            usersLocations.updateChildValues(userValues, withCompletionBlock: { (err, ref) in
-                //there was an error
-                if err != nil{
-                    print(err)
-                    return
-                }
-                //success
-                print("saved user successfully go team")
-            })
-            //find which global playlists to add to this
-            let globalPlaylistRef = ref.child("GlobalLocations")
-            for (index, element) in publicBoolArr.enumerated(){
-                if element == true{
-                    let actualGlobalPlaylistRef = globalPlaylistRef.child(publicPlaylistArr[index])
-                    actualGlobalPlaylistRef.updateChildValues(userValues, withCompletionBlock: { (err, ref) in
-                        //there was an error
-                        if err != nil{
-                            print(err)
-                            return
-                        }
-                        //success
-                        print("saved user successfully go team")
-                    })
-                }
-            }
-            //find which user playlists to add to
-            let userPlaylistRef = ref.child("users").child(uid).child("playlists")
-            for (index, element) in boolArr.enumerated(){
-                if element == true{
-                    let actualUserPlaylistRef = userPlaylistRef.child(playlistArr[index]).child("locations")
-                    actualUserPlaylistRef.updateChildValues(userValues, withCompletionBlock: { (err, ref) in
-                        //there was an error
-                        if err != nil{
-                            print(err)
-                            return
-                        }
-                        //success
-                        print("saved user successfully go team")
-                    })
-                }
-            }
-            //add images
-            for images in pickedImages{
-                print("there are now images ...")
-                let usersLocationsPictures = locationID.child("images").childByAutoId()
-                let imageName = UUID().uuidString
-                let storageRef = FIRStorage.storage().reference().child("location_images").child("\(imageName).png")
-                if let uploadData = UIImageJPEGRepresentation(images, 0.3) {
-                    storageRef.put(uploadData, metadata: nil, completion: { (metadata, error) in
-                        if error != nil {
-                            print(error)
-                            return 
-                        }
-                        
-                        if let profileImageUrl = metadata?.downloadURL()?.absoluteString {
-                            //locationImageString += "|"+String(profileImageUrl)+"|"
-                           // print(locationImageString)
-                            let values = ["image": profileImageUrl]
-                            usersLocationsPictures.updateChildValues(values)
-                            //ocation.setValue(locationImageString, forKey: "imagesPaths")
-                            //location.setValue(locationString, forKey: "locationPath")
-                            
-                            //4
-                            do {
-                               // try managedContext.save()
-                                //5
-                                //self.listItems.append(location)
-                            } catch let error as NSError  {
-                                print("Could not save \(error), \(error.userInfo)")
-                            }
-                            
-                        }
-                    })
-                }
-                
-            }
-        }
-        else{
-            //user is not logged into firebase handle it
-            print("didnt get current user id")
         }
         saveToPlaylists()
         //go back to the last view controller automatically
@@ -804,71 +479,15 @@ class SaveLocationViewController: UIViewController, UICollectionViewDelegateFlow
         if collectionView == self.collectionView{
             return 10
         }
-        else if collectionView == self.playlistCollectionView{
-            if publicButton.backgroundColor == MyVariables.mainColor{
-                print("made it here nig nog")
-                return publicPlaylistArr.count
-            }
-            else{
-                print("in here as well")
-                return playlistArr.count
-                
-            }
-        }
         return 10
     }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == self.collectionView{
-            
-        }
-        else if collectionView == self.playlistCollectionView{
-            print("trying to get this cell")
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PlaylistCell", for: indexPath as IndexPath)
-            cell.backgroundColor = UIColor.purple
-            cell.layer.cornerRadius = 5
-            cell.layer.borderColor = MyVariables.secondaryColor.cgColor
-            cell.layer.borderWidth = 2
-            cell.layer.masksToBounds = true
-            let cellLabel:UILabel = {
-                let l = UILabel()
-                l.translatesAutoresizingMaskIntoConstraints = false
-                l.font = UIFont.boldSystemFont(ofSize: 16)
-                l.adjustsFontSizeToFitWidth = true
-                l.frame = cell.frame
-                l.textAlignment = .center
-                l.backgroundColor = UIColor.white
-                return l
-            }()
-            cell.backgroundView = cellLabel
-            if publicButton.backgroundColor == MyVariables.mainColor{
-                print("in cell label")
-                cellLabel.text = publicPlaylistArr[indexPath.item]
-                print(publicBoolArr)
-                if publicBoolArr[indexPath.item] == true {
-                    cell.backgroundView?.backgroundColor = MyVariables.mainColor
-                    cellLabel.textColor = UIColor.white
-                    cell.layer.borderWidth = 0
-                }
-                else{
-                    cell.backgroundView?.backgroundColor = UIColor.white
-                    
-                }
-            }
-            else{
-                cellLabel.text = playlistArr[indexPath.item]
-                if boolArr[indexPath.item] {
-                    cell.backgroundView?.backgroundColor = MyVariables.mainColor
-                    cellLabel.textColor = UIColor.white
-                    cell.layer.borderWidth = 0
-                }
-                else{
-                    cell.backgroundView?.backgroundColor = UIColor.white
-                    
-                }
-            }
-            return cell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath as IndexPath)
+            //cell.backgroundView = pickedImages
+
         }
         else{
             //in here bad
@@ -881,27 +500,6 @@ class SaveLocationViewController: UIViewController, UICollectionViewDelegateFlow
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if collectionView == self.playlistCollectionView{
-            let font = UIFont.boldSystemFont(ofSize: 16)
-            let fontAttributes = [NSFontAttributeName: font] // it says name, but a UIFont works
-            var myText:String?
-            if publicButton.backgroundColor == MyVariables.mainColor{
-                myText = publicPlaylistArr[indexPath.item]
-            }
-            else{
-                myText = playlistArr[indexPath.item]
-            }
-            if let text = myText{
-                var size = (text as NSString).size(attributes: fontAttributes)
-                size.height = 50
-                size.width += 10
-                return size
-            }
-            
-        }
-        else{
-            return CGSize(width: cellWidth, height: cellHeight)
-        }
         return CGSize(width: cellWidth, height: cellHeight)
     }
     
@@ -916,39 +514,6 @@ class SaveLocationViewController: UIViewController, UICollectionViewDelegateFlow
             picker.navigationBar.tintColor = UIColor.white
             picker.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
             present(picker, animated: true, completion: nil)
-        }
-        else{
-            print("tapped on playlistCell")
-            let cell = playlistCollectionView.cellForItem(at: indexPath as IndexPath)
-            if indexPath.item == 0 {
-                return
-            }
-            if cell?.backgroundView?.backgroundColor == UIColor.white{
-                cell?.backgroundView?.backgroundColor = MyVariables.mainColor
-                if let label = cell?.backgroundView as? UILabel{
-                    label.textColor = UIColor.white
-                }
-                cell?.layer.borderWidth = 0
-                if publicButton.backgroundColor == MyVariables.mainColor{
-                    publicBoolArr[indexPath.item] = true
-                }
-                else{
-                    boolArr[indexPath.item] = true
-                }
-            }
-            else{
-                cell?.backgroundView?.backgroundColor = UIColor.white
-                if let label = cell?.backgroundView as? UILabel{
-                    label.textColor = UIColor.black
-                }
-                cell?.layer.borderWidth = 3
-                if publicButton.backgroundColor == MyVariables.mainColor{
-                    publicBoolArr[indexPath.item] = false
-                }
-                else{
-                    boolArr[indexPath.item] = false
-                }
-            }
         }
     }
     

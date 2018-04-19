@@ -81,13 +81,13 @@ class commentViewController: UIViewController, UITextViewDelegate, UITableViewDe
         super.viewDidLoad()
         //test view shit
         /*
-        view.addSubview(testView)
-        testView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        testView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        testView.leftAnchor.constraint(equalTo: view.leftAnchor, constant:  50).isActive = true
-        testView.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        testView.delegate = self
-        */
+         view.addSubview(testView)
+         testView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+         testView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+         testView.leftAnchor.constraint(equalTo: view.leftAnchor, constant:  50).isActive = true
+         testView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+         testView.delegate = self
+         */
         //real stuff
         if let font = userCommentView.font{
             fontHeight = font.lineHeight
@@ -107,7 +107,7 @@ class commentViewController: UIViewController, UITextViewDelegate, UITableViewDe
         }
         navigationItem.title = "Comments"
         NotificationCenter.default.addObserver(self, selector: #selector(commentViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-
+        
         //NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         //NotificationCenter.defaultCenter.addObserver(self, selector: #selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
         // Do any additional setup after loading the view, typically from a nib.
@@ -243,7 +243,7 @@ class commentViewController: UIViewController, UITextViewDelegate, UITableViewDe
          timeLabel.heightAnchor.constraintEqualToConstant(20).active = true
          */
         return cell
-
+        
     }
     
     
@@ -257,7 +257,7 @@ class commentViewController: UIViewController, UITextViewDelegate, UITableViewDe
             return label.frame.height + 40
         }
         return 60
-
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -280,15 +280,15 @@ class commentViewController: UIViewController, UITextViewDelegate, UITableViewDe
     }
     //TODO: make this work baby
     /*
-    func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0{
-                self.view.frame.origin.y -= keyboardSize.height
-            }
-        }        
-    }
-    */
-
+     func keyboardWillShow(notification: NSNotification) {
+     if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+     if self.view.frame.origin.y == 0{
+     self.view.frame.origin.y -= keyboardSize.height
+     }
+     }
+     }
+     */
+    
     
     func textViewDidChange(_ textView: UITextView) {
         /*
@@ -365,17 +365,17 @@ class commentViewController: UIViewController, UITextViewDelegate, UITableViewDe
                 var values: [String: Any]!
                 let commentId = commentReference.key
                 /*
-                var first = ""
-                var last = ""
-                if let fname = userProfile.firstName{
-                    first = fname
-                }
-                if let lname = userProfile.lastName{
-                    last = lname!
-                }
-                let name = first + " " + last
-                com.name = name as AnyObject?
-                */
+                 var first = ""
+                 var last = ""
+                 if let fname = userProfile.firstName{
+                 first = fname
+                 }
+                 if let lname = userProfile.lastName{
+                 last = lname!
+                 }
+                 let name = first + " " + last
+                 com.name = name as AnyObject?
+                 */
                 let name = (userProfile.username ?? "noname")
                 com.name = userProfile.username as AnyObject?
                 let comment = NSString(string: userCommentView.text)

@@ -296,10 +296,75 @@ class HomeViewController: UIViewController, UICollectionViewDataSource , CLLocat
         
     }
     
+    func makeGetRequest(){
+        // Define server side script URL
+        let scriptUrl = "http://localhost:8080/FP201/PlayServe?purpose=locations"
+        // Add one parameter
+        // Create NSURL Ibject
+        let myUrl = NSURL(string: scriptUrl);
+        
+        // Creaste URL Request
+        let request = NSMutableURLRequest(url:myUrl! as URL);
+        
+        // Set request HTTP method to GET. It could be POST as well
+        request.httpMethod = "GET"
+        
+        // If needed you could add Authorization header value
+        // Add Basic Authorization
+        /*
+         let username = "myUserName"
+         let password = "myPassword"
+         let loginString = NSString(format: "%@:%@", username, password)
+         let loginData: NSData = loginString.dataUsingEncoding(NSUTF8StringEncoding)!
+         let base64LoginString = loginData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions())
+         request.setValue(base64LoginString, forHTTPHeaderField: "Authorization")
+         */
+        
+        // Or it could be a single Authorization Token value
+        //request.addValue("Token token=884288bae150b9f2f68d8dc3a932071d", forHTTPHeaderField: "Authorization")
+        
+        // Excute HTTP Request
+        let task = URLSession.shared.dataTask(with: request as URLRequest) {
+            data, response, error in
+            
+            // Check for error
+            if error != nil
+            {
+                print("error=\(error)")
+                return
+            }
+            
+            // Print out response string
+            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            print("responseString = \(responseString)")
+            
+            
+            // Convert server json response to NSDictionary
+            do {
+                if let convertedJsonIntoDict = try JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary {
+                    
+                    // Print out dictionary
+                    print(convertedJsonIntoDict)
+                    
+                    // Get value by key
+                    let firstNameValue = convertedJsonIntoDict["userName"] as? String
+                    print(firstNameValue!)
+                    
+                }
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
+            
+        }
+        
+        task.resume()
+    }
+    
     
     //view did load function
     override func viewDidLoad() {
         super.viewDidLoad()
+        makeGetRequest()
         //set the button constant so that the buttons are sized perfectly for every screen
         buttonConstant = CGFloat((view.frame.width-20-(view.frame.width/3.5))/5)
         buttonConstant += 5
@@ -336,15 +401,9 @@ class HomeViewController: UIViewController, UICollectionViewDataSource , CLLocat
         manager.requestLocation()
         view.addSubview(saveButton)
         setupSaveButton()
-        //view.addSubview(shrinkButton)
-        //setupShrinkButton()
-        //view.addSubview(zoomButton)
-        //setupZoomButton()
+        
         view.addSubview(buttonHolderView)
         setupButtonHolderView()
-        //view.addSubview(seperatorView)
-        //setupSeperatorView()
-        //setup the title bar navigation controller
         navigationItem.title = "Home"
         //label on the left side
         currentLabel = UILabel(frame: CGRect(x: 0,y: 0,width: view.frame.width-32, height: view.frame.height))
@@ -432,8 +491,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource , CLLocat
     //if the user wants to logout this handles it
     //TODO: check if theyre logged in using fb as well then log them out with that
     func handleLogout(){
-       
-        
+        try! FIRAuth.auth()!.signOut()
         let loginController = LoginViewController()
         loginController.userLoggedOut = true
         DispatchQueue.main.async {
@@ -852,7 +910,6 @@ class HomeViewController: UIViewController, UICollectionViewDataSource , CLLocat
         print("save button tapped")
         if circleButtonButton.currentTitle == "Save Location"{
             let saveLocation = SaveLocationViewController()
-            saveLocation.playlistArr = userPlaylist
             if let long = currentCoordinate?.center.longitude {
                 saveLocation.longitude = long
                 print(long)
@@ -986,7 +1043,8 @@ class HomeViewController: UIViewController, UICollectionViewDataSource , CLLocat
             let middleLong = (highLong+lowLong)/2
             print(highLong, lowLong)
             let middlePoint :CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: middleLat, longitude: middleLong)
-            let span = MKCoordinateSpan(latitudeDelta: (highLat-lowLat+1)*2, longitudeDelta: (highLong-lowLong+1)*2)
+            //let span = MKCoordinateSpan(latitudeDelta: (highLat-lowLat+1)*2, longitudeDelta: (highLong-lowLong+1)*2)
+            let span = MKCoordinateSpan(latitudeDelta: 100, longitudeDelta: 100)
             let region = MKCoordinateRegion(center: middlePoint, span: span)
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 self.mapView.setRegion(region, animated: true)
